@@ -1,6 +1,6 @@
 $(document).ready(function () {
   function updateTimeAndDate() {
-    const currentDay = dayjs().format('dddd, MMMM D, YYYY');
+    const currentDay = dayjs().format('dddd, MMMM D, YYYY h:mm A');
     $('#timedate').text(`${currentDay}`);
   }
 
@@ -8,47 +8,52 @@ $(document).ready(function () {
 
   setInterval(updateTimeAndDate, 1000);
 
-//   if (currentTimeBlockHour > currentHour) {
-//     $(timeBlockEventSpace).addClass('future');
-// }
-// else if (currentTimeBlockHour === currentHour) {
-//     $(timeBlockEventSpace).addClass('present');
-// }
-// else {
-//     $(timeBlockEventSpace).addClass('past');
-// }
-// }
+  let currentHour = dayjs().hour();
+  $(".time-block").each(function () {
+    let timeBlockHour = $(this).attr("id").split("hour")[1];
+    console.log(timeBlockHour);
+    if (timeBlockHour > currentHour) {
+      $(this).addClass("future");
+    } else if (timeBlockHour == currentHour) {
+      $(this).addClass("present");
+    } else {
+      $(this).addClass("past");
+    }
+  });
 
+  var clearData = $(".cleardata");
+  clearData.on('click', function () {
+    localStorage.clear();
+    window.location.reload();
+  });
 
   var hour = [
-    'hour-9',
-    'hour-10',
-    'hour-11',
-    'hour-12',
-    'hour-13',
-    'hour-14',
-    'hour-15',
-    'hour-16',
-    'hour-17',
+    'hour9',
+    'hour10',
+    'hour11',
+    'hour12',
+    'hour13',
+    'hour14',
+    'hour15',
+    'hour16',
+    'hour17',
   ];
 
-  for (var i = 0; i < hour.length; i++) {
-    var input = $(`#${hour[i]} .description`);
-    var appointment = localStorage.getItem(hour[i]);
+  for (const hourItem of hour) {
+    const input = $(`#${hourItem} .description`);
+    const appointment = localStorage.getItem(hourItem);
     if (appointment) {
       input.val(appointment);
     }
   }
-
-  var saveButtons = $('.saveBtn');
-  saveButtons.each((index, saveButton) => {
-    $(saveButton).on('click', (event) => {
-      event.preventDefault();
-      var input = $(`#${hour[index]} .description`);
-      var inputValue = input.val();
-      localStorage.setItem(hour[index], inputValue);
-      console.log('saved', inputValue)
-    });
+  
+  $('.saveBtn').on('click', (event) => {
+    event.preventDefault();
+    const index = $('.saveBtn').index(event.currentTarget);
+    const input = $(`#${hour[index]} .description`);
+    const inputValue = input.val();
+    localStorage.setItem(hour[index], inputValue);
+    console.log('saved', inputValue);
 
   });
 
