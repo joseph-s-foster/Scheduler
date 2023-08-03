@@ -43,7 +43,7 @@ textarea {
 }
 
 .past {
-  background-color: transparent;
+  background-color: #000;
   color: white;
 }
 
@@ -53,8 +53,8 @@ textarea {
 }
 
 .future {
-  background-color: transparent;
-  color: white;
+  background-color: #292b2c;
+  color: white
 }
 
 .saveBtn {
